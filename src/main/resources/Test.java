@@ -1,5 +1,11 @@
 package main.resources;
 
+/** //kjhasfj
+ * Classe test pour valider les méthodes
+ * LOCet CLO
+ * //commentairio
+ */ //dfugdfkg
+
 public class Test {
 
     int number1 = 5;
