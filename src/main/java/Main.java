@@ -14,6 +14,8 @@ public class Main {
         // TODO get tout les path des fichiers java dans ce projet
 
         Main m = new Main();
-        ClassMetrics cm = new ClassMetrics("test");
+        ClassMetrics cm = new ClassMetrics("src/main/resources/test");
+        cm.readJavaFile();
+
     }
 }

@@ -1,5 +1,8 @@
 package main.java;
 
+import java.nio.file.Files;
+import java.nio.file.Paths;
+
 /**
  * Classe responsable de calculer les métriques associées
  * à un fichier donné en entré. Chaque méthode représentera
@@ -10,7 +13,7 @@ package main.java;
 
 public class ClassMetrics {
 
-    // Chemin absolu de la classe cible
+
     public String classPath;
 
 
@@ -22,4 +25,15 @@ public class ClassMetrics {
     public ClassMetrics(String classPath) {
         this.classPath = classPath;
     }
+
+
+    public void readJavaFile() {
+
+        String content = Files.readString(Paths.get(classPath));
+        System.out.println(classPath);
+
+    }
+
+
+
 }
