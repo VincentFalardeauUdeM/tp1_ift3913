@@ -9,13 +9,11 @@ public class Main {
     }
 
     public static void main(String[] args) {
-        String path = "../resources/jfreechart-master";
 
-        //TODO classe ou dossier
+        // TODO classe ou dossier
+        // TODO get tout les path des fichiers java dans ce projet
 
-        //TODO get tout les path des fichiers java dans ce projet
-        //Prendre chaque fichier, et faire les metriques
         Main m = new Main();
-        System.out.println(m.pp.getProperty("db.user"));
+        ClassMetrics cm = new ClassMetrics("test");
     }
 }

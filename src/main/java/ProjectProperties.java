@@ -1,28 +1,42 @@
 package main.java;
 
+import java.io.BufferedInputStream;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
+
 public class ProjectProperties {
 
-    private final String CONFIG = "config.properties";
+    // Chemin relatif du fichier propreties
+    private final String CONFIG = "src/main/resources/config.properties";
 
-    //https://mkyong.com/java/java-properties-file-examples/
-    public String getProperty(String propertyName){
-        try (InputStream input = Main.class.getClassLoader().getResourceAsStream(CONFIG)) {
 
+    /**
+     * Récupère la valeur d'une propriété depuis le fichier
+     * config.properties
+     * @param propertyName nom propriété
+     * @return valeur propriété
+     */
+
+    public String getProperty(String propertyName) {
+
+        // Parse le fichier de config
+        try (InputStream input = new BufferedInputStream(new FileInputStream(CONFIG))) {
+
+            // Création objet Properties
             Properties prop = new Properties();
 
-            // load a properties file
+            // Load le properties file dans notre objet
             prop.load(input);
 
-            // get the property value and print it out
+            // Retourn la valeur associée à propertyName
             return prop.getProperty(propertyName);
 
         } catch (IOException ex) {
-            ex.printStackTrace();
+            return ex.getMessage();
         }
-        return "not found";
     }
+
 }
