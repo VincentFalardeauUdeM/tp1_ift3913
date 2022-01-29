@@ -1,11 +1,17 @@
 package main.resources;
 
-public class Test {
+/** //kjhasfj
+ * Classe test pour valider les méthodes
+ * LOCet CLO
+ * //commentairio
+ */ //dfugdfkg
+
+public class Test2 {
 
     int number1 = 5;
     int number2 = 10;
 
-    public Test() {
+    public Test2() {
     }
     //allo
     public int getNumber1() {

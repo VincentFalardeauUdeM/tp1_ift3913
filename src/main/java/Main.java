@@ -1,5 +1,7 @@
 package main.java;
 
+import java.io.IOException;
+
 public class Main {
 
     public ProjectProperties pp;
@@ -10,12 +12,25 @@ public class Main {
 
     public static void main(String[] args) {
 
-        // TODO classe ou dossier
-        // TODO get tout les path des fichiers java dans ce projet
-
         Main m = new Main();
-        ClassMetrics cm = new ClassMetrics("src/main/resources/test");
-        cm.readJavaFile();
+
+        try {
+            ClassMetrics cm = new ClassMetrics("src/main/resources/Test.java");
+            System.out.println(cm.classe_CLOC());
+            System.out.println(cm.classe_LOC());
+            System.out.println(cm.classe_DC());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            PackageMetrics pm = new PackageMetrics("src/main/resources");
+            System.out.println(pm.paquet_CLOC());
+            System.out.println(pm.paquet_LOC());
+            System.out.println(pm.paquet_DC());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
     }
 }
