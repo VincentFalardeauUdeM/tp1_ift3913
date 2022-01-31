@@ -112,10 +112,6 @@ public class PackageMetrics {
 
     //Src: https://www.baeldung.com/java-list-directory-files
     private List<String> getJavaFilesInPackage(String pkg){
-
-        //TODO quoi faire avec module-info.java ou package-info.java?
-        //TODO créer une liste de noms exclus dans project properties
-
         File[] files = new File(pkg).listFiles();
         return Arrays.stream(files).distinct()
                 .filter(file -> !file.isDirectory() && file.getName().endsWith(p.get("javaFileExt")))
