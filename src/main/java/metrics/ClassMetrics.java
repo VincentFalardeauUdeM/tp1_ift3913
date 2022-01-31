@@ -1,5 +1,6 @@
 package main.java.metrics;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -15,15 +16,21 @@ import java.util.Scanner;
  */
 public class ClassMetrics {
 
+    private final String path;
+    private final String  className;
     private final int classe_CLOC;
     private final int classe_LOC;
     private final double classe_DC;
+
+
 
     /**
      * Constructeur de ClassMetrics
      * @param file chemin du fichier .java de la classe
      */
     public ClassMetrics(String file) throws IOException {
+        this.path = file;
+        this.className = getClassName(file);
         List<String> lines = readAndRemoveEmptyLines(file);
         this.classe_CLOC = computeClasse_CLOC(lines);
         this.classe_LOC = computeClasse_LOC(lines);
@@ -55,6 +62,12 @@ public class ClassMetrics {
      */
     public double classe_DC() {
         return this.classe_DC;
+    }
+
+    @Override
+    public String toString(){
+        return String.format("%s, %s, %s, %s, %s\n",
+                this.path, this.className, this.classe_LOC, this.classe_CLOC, this.classe_DC);
     }
 
     private int computeClasse_CLOC(List<String> lines){
@@ -129,6 +142,13 @@ public class ClassMetrics {
         }
         scan.close();
         return lines;
+    }
+
+    private String getClassName(String file){
+        File f = new File(file);
+
+        //TODO remove magic value
+        return f.getName().substring(0, f.getName().length() - ".java".length());
     }
 }
 

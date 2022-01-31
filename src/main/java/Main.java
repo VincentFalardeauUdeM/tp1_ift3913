@@ -15,13 +15,24 @@ public class Main {
 
     public static void main(String[] args) {
 
+        //Test
         String file = args[0] + "/src/main/java/org/jfree/chart/annotations/AbstractAnnotation.java";
 
         try {
             ClassMetrics cm = new ClassMetrics(file);
-            System.out.println(cm.classe_CLOC());
-            System.out.println(cm.classe_LOC());
-            System.out.println(cm.classe_DC());
+            System.out.println(cm);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        //Test
+        String pkg = args[0] + "/src/main/java/org/jfree/chart";
+
+        try {
+            PackageMetrics pm = new PackageMetrics(pkg);
+            System.out.println(pm.paquet_CLOC());
+            System.out.println(pm.paquet_LOC());
+            System.out.println(pm.paquet_DC());
         } catch (IOException e) {
             e.printStackTrace();
         }
