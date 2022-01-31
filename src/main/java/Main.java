@@ -2,53 +2,33 @@ package main.java;
 
 import main.java.metrics.ClassMetrics;
 import main.java.metrics.PackageMetrics;
+import main.java.properties.ProjectProperties;
 
 import java.io.IOException;
+import java.util.List;
 
 public class Main {
 
-    public ProjectProperties pp;
-
-    public Main(){
-        pp = new ProjectProperties();
-    }
+    //La seule valeur magique du projet ;)
+    //TODO changer pour le jar
+    private static final String CONFIG_FILE = "src/main/resources/config.properties";
 
     public static void main(String[] args) {
 
-        //Test
-        String file = args[0] + "/src/main/java/org/jfree/chart/annotations/AbstractAnnotation.java";
-
         try {
-            ClassMetrics cm = new ClassMetrics(file);
-            System.out.println(cm);
+            String pkgLocation = args[0];
+            ProjectProperties projectProperties = new ProjectProperties(CONFIG_FILE);
+
+            PackageMetrics pkgMetrics = new PackageMetrics(pkgLocation, projectProperties);
+            System.out.println(pkgMetrics);//TODO output to csv
+
+            List<ClassMetrics> classMetricsList = pkgMetrics.getClassMetricsList();
+            for(ClassMetrics classMetrics: classMetricsList){
+                System.out.println(classMetrics);//TODO output to csv
+            }
+
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        //Test
-        String pkg = args[0] + "/src/main/java/org/jfree/chart";
-
-        try {
-            PackageMetrics pm = new PackageMetrics(pkg);
-            System.out.println(pm.paquet_CLOC());
-            System.out.println(pm.paquet_LOC());
-            System.out.println(pm.paquet_DC());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-//        Main m = new Main();
-//
-
-//
-//        try {
-//            PackageMetrics pm = new PackageMetrics("src/main/resources");
-//            System.out.println(pm.paquet_CLOC());
-//            System.out.println(pm.paquet_LOC());
-//            System.out.println(pm.paquet_DC());
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-
     }
 }

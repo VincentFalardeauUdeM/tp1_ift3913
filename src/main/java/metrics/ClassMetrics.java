@@ -1,5 +1,7 @@
 package main.java.metrics;
 
+import main.java.properties.ProjectProperties;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -21,14 +23,14 @@ public class ClassMetrics {
     private final int classe_CLOC;
     private final int classe_LOC;
     private final double classe_DC;
-
-
+    private final ProjectProperties p;
 
     /**
      * Constructeur de ClassMetrics
      * @param file chemin du fichier .java de la classe
      */
-    public ClassMetrics(String file) throws IOException {
+    public ClassMetrics(String file, ProjectProperties projectProperties) throws IOException {
+        this.p = projectProperties;
         this.path = file;
         this.className = getClassName(file);
         List<String> lines = readAndRemoveEmptyLines(file);
@@ -66,7 +68,7 @@ public class ClassMetrics {
 
     @Override
     public String toString(){
-        return String.format("%s, %s, %s, %s, %s\n",
+        return String.format(p.get("csvOutputFormat"),
                 this.path, this.className, this.classe_LOC, this.classe_CLOC, this.classe_DC);
     }
 
@@ -81,22 +83,23 @@ public class ClassMetrics {
         for (String line : lines) {
 
             // Commentaires de type //
-            if(line.contains("//") && !inBlocComment && !line.contains("/*") && commentIsNotInString(line)) {
+            if(line.contains(p.get("basicComment")) && !inBlocComment && !line.contains(p.get("beginningOfBlocComment"))
+                    && commentIsNotInString(line)) {
                 nbDeLignesDeCommentaire++;
             }
             // Cas ou un bloc /*  ... */ s'ouvre et se referme sur la même ligne
-            else if(line.contains("/*") && line.contains("*/") && !inBlocComment){
+            else if(line.contains(p.get("beginningOfBlocComment")) && line.contains(p.get("endOfBlocComment")) && !inBlocComment){
                 nbDeLignesDeCommentaire++;
             }
             else{
                 // Bloc /*  ... */ sur plusieurs lignes
-                if(line.contains("/*") && inBlocComment == false) {
+                if(line.contains(p.get("beginningOfBlocComment")) && inBlocComment == false) {
                     inBlocComment = true;
                 }
                 if(inBlocComment == true) {
                     nbDeLignesDeCommentaire++;
                 }
-                if(inBlocComment == true && line.contains("*/")) {
+                if(inBlocComment == true && line.contains(p.get("endOfBlocComment"))) {
                     inBlocComment = false;
                 }
             }
@@ -116,14 +119,14 @@ public class ClassMetrics {
     //String d = "//" + "//";               n'est pas un commentaire
     private boolean commentIsNotInString(String line){
         int first, next = -1;
-        int idx = line.indexOf("//");
+        int idx = line.indexOf(p.get("basicComment"));
         while(idx > 0){
-            first  = line.indexOf("\"", next+1);
-            next = line.indexOf("\"", first+1);
+            first  = line.indexOf(p.get("quote"), next+1);
+            next = line.indexOf(p.get("quote"), first+1);
             if(!(first < idx && idx < next)) {
                 return true;
             }
-            idx = line.indexOf("//", idx+1);
+            idx = line.indexOf(p.get("basicComment"), idx+1);
         }
         return false;
     }
@@ -147,8 +150,7 @@ public class ClassMetrics {
     private String getClassName(String file){
         File f = new File(file);
 
-        //TODO remove magic value
-        return f.getName().substring(0, f.getName().length() - ".java".length());
+        return f.getName().substring(0, f.getName().length() - p.get("javaFileExt").length());
     }
 }
 

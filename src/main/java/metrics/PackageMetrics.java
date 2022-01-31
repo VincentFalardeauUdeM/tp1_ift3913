@@ -1,6 +1,7 @@
 package main.java.metrics;
 
 import main.java.metrics.ClassMetrics;
+import main.java.properties.ProjectProperties;
 
 import java.io.File;
 import java.io.IOException;
@@ -18,11 +19,12 @@ import java.util.stream.Collectors;
  */
 public class PackageMetrics {
 
-    //TODO to string
-
-    private int paquet_CLOC;
-    private int paquet_LOC;
-    private double paquet_DC;
+    private final String path;
+    private final String  pkgName;
+    private final int paquet_CLOC;
+    private final int paquet_LOC;
+    private final double paquet_DC;
+    private final ProjectProperties p;
 
     private List<ClassMetrics> classMetricsList;
 
@@ -30,7 +32,10 @@ public class PackageMetrics {
      * Constructeur de PackageMetrics
      * @param pkg chemin absolu de la classse
      */
-    public PackageMetrics(String pkg) throws IOException {
+    public PackageMetrics(String pkg, ProjectProperties projectProperties) throws IOException {
+        this.p = projectProperties;
+        this.path = pkg;
+        this.pkgName = getPackageName(pkg);
         this.classMetricsList = getClassMetricsFromPackage(pkg);
         this.paquet_CLOC = computePaquet_CLOC(classMetricsList);
         this.paquet_LOC = computePaquet_LOC(classMetricsList);
@@ -70,6 +75,12 @@ public class PackageMetrics {
         return this.classMetricsList;
     }
 
+    @Override
+    public String toString(){
+        return String.format(p.get("csvOutputFormat"),
+                this.path, this.pkgName, this.paquet_LOC, this.paquet_CLOC, this.paquet_DC);
+    }
+
     private int computePaquet_CLOC(List<ClassMetrics> classMetricsList) {
         int cloc = 0;
         for(ClassMetrics cm: classMetricsList){
@@ -95,7 +106,7 @@ public class PackageMetrics {
         List<ClassMetrics> classMetricsList = new ArrayList<ClassMetrics>();
         List<String> files = getJavaFilesInPackage(packagePath);
         for(String file: files){
-            classMetricsList.add(new ClassMetrics(file));
+            classMetricsList.add(new ClassMetrics(file, p));
         }
         return classMetricsList;
     }
@@ -108,7 +119,7 @@ public class PackageMetrics {
 
         File[] files = new File(pkg).listFiles();
         return Arrays.stream(files).distinct()
-                .filter(file -> !file.isDirectory() && file.getName().endsWith(".java") && !file.getName().equals("package-info.java"))
+                .filter(file -> !file.isDirectory() && file.getName().endsWith(p.get("javaFileExt")))
                 .map(File::getName)
                 .map(fName->joinPaths(pkg, fName))
                 .collect(Collectors.toList());
@@ -119,5 +130,10 @@ public class PackageMetrics {
         File file1 = new File(path1);
         File file2 = new File(file1, path2);
         return file2.getPath();
+    }
+
+    private String getPackageName(String pkg){
+        File f = new File(pkg);
+        return f.getName();
     }
 }
