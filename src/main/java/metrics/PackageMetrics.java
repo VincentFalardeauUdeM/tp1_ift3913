@@ -1,7 +1,7 @@
 package main.java.metrics;
 
-import main.java.metrics.ClassMetrics;
 import main.java.properties.ProjectProperties;
+import main.java.util.Util;
 
 import java.io.File;
 import java.io.IOException;
@@ -25,7 +25,6 @@ public class PackageMetrics {
     private final int paquet_LOC;
     private final double paquet_DC;
     private final ProjectProperties p;
-
     private List<ClassMetrics> classMetricsList;
 
     /**
@@ -35,8 +34,8 @@ public class PackageMetrics {
     public PackageMetrics(String pkg, ProjectProperties projectProperties) throws IOException {
         this.p = projectProperties;
         this.path = pkg;
-        this.pkgName = getPackageName(pkg);
         this.classMetricsList = getClassMetricsFromPackage(pkg);
+        this.pkgName = getPackageName(pkg, classMetricsList);
         this.paquet_CLOC = computePaquet_CLOC(classMetricsList);
         this.paquet_LOC = computePaquet_LOC(classMetricsList);
         this.paquet_DC = computePaquet_DC( this.paquet_CLOC, this.paquet_LOC);
@@ -121,19 +120,13 @@ public class PackageMetrics {
         return Arrays.stream(files).distinct()
                 .filter(file -> !file.isDirectory() && file.getName().endsWith(p.get("javaFileExt")))
                 .map(File::getName)
-                .map(fName->joinPaths(pkg, fName))
+                .map(fName-> Util.joinPaths(pkg, fName))
                 .collect(Collectors.toList());
     }
 
-    //Src: https://stackoverflow.com/questions/412380/how-to-combine-paths-in-java
-    public static String joinPaths(String path1, String path2) {
-        File file1 = new File(path1);
-        File file2 = new File(file1, path2);
-        return file2.getPath();
-    }
-
-    private String getPackageName(String pkg){
-        File f = new File(pkg);
-        return f.getName();
+    private String getPackageName(String pkg, List<ClassMetrics> classMetricsList){
+        return classMetricsList.size() > 0 ?
+                classMetricsList.get(0).getPackageName() :
+                pkg.substring(1).replaceAll(p.get("slash"), p.get("dot"));
     }
 }

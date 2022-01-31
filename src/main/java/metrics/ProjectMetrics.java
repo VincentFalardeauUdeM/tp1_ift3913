@@ -1,5 +1,8 @@
 package main.java.metrics;
 
+import main.java.properties.ProjectProperties;
+import main.java.util.Util;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -9,11 +12,20 @@ import java.util.stream.Collectors;
 
 public class ProjectMetrics {
 
-
-//    public ProjectMetrics(){
+//    private final ProjectProperties p;
+//    private List<PackageMetrics> packageMetricsList;
+//
+//    public ProjectMetrics(String root, ProjectProperties projectProperties){
+//        this.p = projectProperties;
+//        this.packageMetricsList = getPackageMetricsFromRoot(root);
+//
 //
 //    }
 //
+//    private List<PackageMetrics> getPackageMetricsFromRoot(String root) {
+//        File[] files = new File(root).listFiles();
+//        List<String> dirList = getSubFoldersFromFiles(files, root);
+//    }
 //
 //
 //    //TODO detect packages
@@ -27,10 +39,7 @@ public class ProjectMetrics {
 //     */
 //    private List<String> getJavaFilesInPackage(String packagePath){
 //
-//
-//
 //        File[] files = new File(packagePath).listFiles();
-//        List<String> fileList =  getJavaFilesFromFiles(files, packagePath);
 //        List<String> dirList = getSubFoldersFromFiles(files, packagePath);
 //
 //        //Obtenir les fichiers .java des sous-dossiers
@@ -43,23 +52,13 @@ public class ProjectMetrics {
 //        return fileList;
 //    }
 //
-//    //Liste des fichiers .java
-//    //Source: https://www.baeldung.com/java-list-directory-files
-//    private List<String> getJavaFilesFromFiles(File[] files, String root){
-//        return Arrays.stream(files).distinct()
-//                .filter(file -> !file.isDirectory() && file.getName().endsWith(".java"))
-//                .map(File::getName)
-//                .map(fName->root + "/" + fName)
-//                .collect(Collectors.toList());
-//    }
-//
 //    //Liste des sous-dossiers
 //    //Source: https://www.baeldung.com/java-list-directory-files
 //    private List<String> getSubFoldersFromFiles(File[] files, String root){
 //        return Arrays.stream(files).distinct()
 //                .filter(file -> file.isDirectory())
 //                .map(File::getName)
-//                .map(fName->root + "/" + fName)
+//                .map(dName-> Util.joinPaths(root, dName))
 //                .collect(Collectors.toList());
 //    }
 //

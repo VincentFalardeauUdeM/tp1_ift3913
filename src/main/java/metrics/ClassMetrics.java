@@ -24,6 +24,7 @@ public class ClassMetrics {
     private final int classe_LOC;
     private final double classe_DC;
     private final ProjectProperties p;
+    private String packageName;
 
     /**
      * Constructeur de ClassMetrics
@@ -33,7 +34,8 @@ public class ClassMetrics {
         this.p = projectProperties;
         this.path = file;
         this.className = getClassName(file);
-        List<String> lines = readAndRemoveEmptyLines(file);
+        packageName = "";
+        List<String> lines = readAndRemoveEmptyLinesAndSetPackageName(file);
         this.classe_CLOC = computeClasse_CLOC(lines);
         this.classe_LOC = computeClasse_LOC(lines);
         this.classe_DC = computeClasse_DC(this.classe_CLOC,  this.classe_LOC);
@@ -131,7 +133,7 @@ public class ClassMetrics {
         return false;
     }
 
-    private List<String> readAndRemoveEmptyLines(String file) throws IOException {
+    private List<String> readAndRemoveEmptyLinesAndSetPackageName(String file) throws IOException {
 
         List<String> lines = new ArrayList<>();
         
@@ -139,7 +141,14 @@ public class ClassMetrics {
         Scanner scan = new Scanner(new FileInputStream(file));
         while(scan.hasNextLine()) {
             String line = scan.nextLine();
-            if(!line.trim().isEmpty()) {
+            String trimmedLine = line.trim();
+
+            int pkgIdx = trimmedLine.indexOf(p.get("packageDeclarationPrefix"));
+            if(pkgIdx >= 0){
+                this.packageName = trimmedLine.substring(p.get("packageDeclarationPrefix").length(), trimmedLine.length()-1);
+            }
+
+            if(!trimmedLine.isEmpty()) {
                 lines.add(line);
             }
         }
@@ -151,6 +160,10 @@ public class ClassMetrics {
         File f = new File(file);
 
         return f.getName().substring(0, f.getName().length() - p.get("javaFileExt").length());
+    }
+
+    public String getPackageName() {
+        return this.packageName;
     }
 }
 
