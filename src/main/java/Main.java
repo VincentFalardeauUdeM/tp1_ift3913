@@ -22,6 +22,7 @@ public class Main {
 
             ProjectMetrics projectMetrics = new ProjectMetrics(pkgLocation, projectProperties);
             //TODO output to csv
+            int i = 0;
 
         } catch (IOException e) {
             e.printStackTrace();

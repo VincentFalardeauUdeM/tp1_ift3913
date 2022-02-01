@@ -5,6 +5,7 @@ import main.java.util.Util;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -20,6 +21,7 @@ public class ProjectMetrics {
     }
 
     private List<PackageMetrics> getPackageMetricsFromRoot(String root) throws IOException {
+        List<PackageMetrics> packageMetricsList = new ArrayList<PackageMetrics>();
         File[] files = new File(root).listFiles();
         List<String> dirList = getSubFoldersFromFiles(files, root);
         PackageMetrics packageMetrics = new PackageMetrics(root, p);
