@@ -2,6 +2,7 @@ package main.java;
 
 import main.java.metrics.ClassMetrics;
 import main.java.metrics.PackageMetrics;
+import main.java.metrics.ProjectMetrics;
 import main.java.properties.ProjectProperties;
 
 import java.io.IOException;
@@ -19,13 +20,8 @@ public class Main {
             String pkgLocation = args[0];
             ProjectProperties projectProperties = new ProjectProperties(CONFIG_FILE);
 
-            PackageMetrics pkgMetrics = new PackageMetrics(pkgLocation, projectProperties);
-            System.out.println(pkgMetrics);//TODO output to csv
-
-            List<ClassMetrics> classMetricsList = pkgMetrics.getClassMetricsList();
-            for(ClassMetrics classMetrics: classMetricsList){
-                System.out.println(classMetrics);//TODO output to csv
-            }
+            ProjectMetrics projectMetrics = new ProjectMetrics(pkgLocation, projectProperties);
+            //TODO output to csv
 
         } catch (IOException e) {
             e.printStackTrace();
