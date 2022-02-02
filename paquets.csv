@@ -1,0 +1,29 @@
+chemin, paquet, paquet_LOC, paquet_CLOC, paquet_DC
+C:\jfreechart-master\src\main\java\org\jfree\chart, org.jfree.chart, 3281, 6545, 1.99
+, C:\jfreechart-master\src\main\java\org\jfree\chart\annotations, org.jfree.chart.annotations, 2906, 5642, 1.94
+, C:\jfreechart-master\src\main\java\org\jfree\chart\api, org.jfree.chart.api, 835, 1359, 1.63
+, C:\jfreechart-master\src\main\java\org\jfree\chart\axis, org.jfree.chart.axis, 8353, 17608, 2.11
+, C:\jfreechart-master\src\main\java\org\jfree\chart\block, org.jfree.chart.block, 2593, 4980, 1.92
+, C:\jfreechart-master\src\main\java\org\jfree\chart\date, org.jfree.chart.date, 784, 1330, 1.7
+, C:\jfreechart-master\src\main\java\org\jfree\chart\encoders, org.jfree.chart.encoders, 525, 745, 1.42
+, C:\jfreechart-master\src\main\java\org\jfree\chart\entity, org.jfree.chart.entity, 1575, 2581, 1.64
+, C:\jfreechart-master\src\main\java\org\jfree\chart\event, org.jfree.chart.event, 934, 1136, 1.22
+, C:\jfreechart-master\src\main\java\org\jfree\chart\imagemap, org.jfree.chart.imagemap, 460, 652, 1.42
+, C:\jfreechart-master\src\main\java\org\jfree\chart\internal, org.jfree.chart.internal, 977, 2147, 2.2
+, C:\jfreechart-master\src\main\java\org\jfree\chart\labels, org.jfree.chart.labels, 3299, 5475, 1.66
+, C:\jfreechart-master\src\main\java\org\jfree\chart\legend, org.jfree.chart.legend, 1704, 3356, 1.97
+, C:\jfreechart-master\src\main\java\org\jfree\chart\plot, org.jfree.chart.plot, 12156, 25028, 2.06
+, C:\jfreechart-master\src\main\java\org\jfree\chart\plot\compass, org.jfree.chart.plot.compass, 1176, 2333, 1.98
+, C:\jfreechart-master\src\main\java\org\jfree\chart\plot\dial, org.jfree.chart.plot.dial, 3082, 5544, 1.8
+, C:\jfreechart-master\src\main\java\org\jfree\chart\plot\flow, org.jfree.chart.plot.flow, 303, 759, 2.5
+, C:\jfreechart-master\src\main\java\org\jfree\chart\plot\pie, org.jfree.chart.plot.pie, 2103, 4333, 2.06
+, C:\jfreechart-master\src\main\java\org\jfree\chart\renderer, org.jfree.chart.renderer, 3145, 5738, 1.82
+, C:\jfreechart-master\src\main\java\org\jfree\chart\renderer\category, org.jfree.chart.renderer.category, 5991, 12580, 2.1
+, C:\jfreechart-master\src\main\java\org\jfree\chart\renderer\xy, org.jfree.chart.renderer.xy, 8646, 18269, 2.11
+, C:\jfreechart-master\src\main\java\org\jfree\chart\swing, org.jfree.chart.swing, 2387, 4962, 2.08
+, C:\jfreechart-master\src\main\java\org\jfree\chart\swing\editor, org.jfree.chart.swing.editor, 1465, 3421, 2.34
+, C:\jfreechart-master\src\main\java\org\jfree\chart\text, org.jfree.chart.text, 1142, 2238, 1.96
+, C:\jfreechart-master\src\main\java\org\jfree\chart\text\format, org.jfree.chart.text.format, 565, 968, 1.71
+, C:\jfreechart-master\src\main\java\org\jfree\chart\title, org.jfree.chart.title, 1052, 2130, 2.02
+, C:\jfreechart-master\src\main\java\org\jfree\chart\urls, org.jfree.chart.urls, 952, 1557, 1.64
+, C:\jfreechart-master\src\main\java\org\jfree\chart\util, org.jfree.chart.util, 921, 1676, 1.82
