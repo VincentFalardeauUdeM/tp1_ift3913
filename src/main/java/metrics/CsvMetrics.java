@@ -42,14 +42,15 @@ public class CsvMetrics {
 
         String fileName = p.get("packageCsvFilename");
         String header = p.get("packageCsvFirstLine");
-        String packageMetrics = String.valueOf(pm.getPackageMetricsList());
-        packageMetrics = packageMetrics.substring(1, packageMetrics.length() - 1);
 
         try (PrintWriter writer = new PrintWriter(fileName)) {
 
             StringBuilder sb = new StringBuilder();
-            sb.append(header + "\n");
-            sb.append(packageMetrics);
+            sb.append(header);
+
+            for (PackageMetrics pm : pm.getPackageMetricsList()) {
+                sb.append(pm);
+            }
             writer.write(sb.toString());
 
         } catch (FileNotFoundException e) {
@@ -69,20 +70,17 @@ public class CsvMetrics {
 
         String fileName = p.get("classCsvFilename");
         String header = p.get("classCsvFirstLine");
-        String finalString = "";
 
         try (PrintWriter writer = new PrintWriter(fileName)) {
 
             StringBuilder sb = new StringBuilder();
-            sb.append(header + "\n");
+            sb.append(header);
 
             for (PackageMetrics pkg : pm.getPackageMetricsList()) {
-                finalString = finalString + pkg.getClassMetricsList();
+                for (ClassMetrics cm:  pkg.getClassMetricsList()) {
+                    sb.append(cm);
+                }
             }
-
-            finalString = finalString.substring(1, finalString.length() - 1);
-            sb.append(finalString);
-
             writer.write(sb.toString());
 
         } catch (FileNotFoundException e) {
@@ -90,5 +88,5 @@ public class CsvMetrics {
         }
     }
 
-    
+
 }
