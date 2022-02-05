@@ -7,6 +7,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
   * Classe responsable de calculer les métriques associées
@@ -24,6 +26,7 @@ public class ClassMetrics {
     private final int classe_CLOC;
     private final int classe_LOC;
     private final double classe_DC;
+    private final int classe_complexity;
     private final ProjectProperties p;
     private String packageName;
 
@@ -41,6 +44,7 @@ public class ClassMetrics {
         List<String> lines = readAndRemoveEmptyLinesAndSetPackageName(file);
         this.classe_CLOC = computeClasse_CLOC(lines);
         this.classe_LOC = computeClasse_LOC(lines);
+        this.classe_complexity = computeComplexiteCyclomatique(lines);
         this.classe_DC = computeClasse_DC(this.classe_CLOC,  this.classe_LOC);
     }
 
@@ -73,6 +77,14 @@ public class ClassMetrics {
     public double classe_DC() {
         return this.classe_DC;
     }
+
+
+    /**
+     * Getter de la complexité de classe_complexity
+     * @return complexité de la classe
+     */
+
+    public int classe_complexity() { return this.classe_complexity;}
 
 
     /**
@@ -212,6 +224,31 @@ public class ClassMetrics {
         }
         scan.close();
         return lines;
+    }
+
+
+    /**
+     * Trouver le degré de complexité d'une classe en observant
+     * pour chaque ligne si une
+     * sources https://www.baeldung.com/java-count-regex-matches
+     * @param lines lignes de la classe
+     * @return complexité de McCabe pour la classe
+     */
+
+    private int computeComplexiteCyclomatique(List<String> lines) {
+
+        Pattern complexityPattern =  Pattern.compile(p.get("regexp_class_complexity"));
+        Matcher complexityMatcher;
+        int count = 0;
+
+        for (String line: lines) {
+            complexityMatcher = complexityPattern.matcher(line);
+            if (complexityMatcher.find()) {
+                count++;
+            }
+        }
+
+        return count;
     }
 
 
