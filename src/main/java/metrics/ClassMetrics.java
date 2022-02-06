@@ -18,7 +18,6 @@ import java.util.stream.Collectors;
   * @author Pascal St-Amour
   * @author Vincent Falardeau
  */
-
 public class ClassMetrics {
 
 
@@ -37,7 +36,6 @@ public class ClassMetrics {
      * Constructeur de ClassMetrics
      * @param file chemin du fichier .java de la classe
     */
-
     public ClassMetrics(String file, ProjectProperties projectProperties) throws IOException {
         this.p = projectProperties;
         this.path = file;
@@ -56,7 +54,6 @@ public class ClassMetrics {
      * Getter métric classe_CLOC
      * @return total de ligne
     */
-
     public int classe_CLOC() {
     return this.classe_CLOC;
     }
@@ -66,7 +63,6 @@ public class ClassMetrics {
      * Getter pour le métric classe_LOC
      * @return total de ligne comportant des commentaires
     */
-
     public int classe_LOC() {
     return this.classe_LOC;
     }
@@ -74,22 +70,24 @@ public class ClassMetrics {
 
     /**
      * Getter pour le métric classe_DC
-     * @return densité des commentaires
+     * @return metric classe_DC
     */
-
     public double classe_DC() {
         return this.classe_DC;
     }
 
 
     /**
-     * Getter de la complexité de classe_complexity
-     * @return complexité de la classe
+     * Getter du Weighted Methods per Class
+     * @return metric wmc
      */
+    public int WMC() { return this.wmc; }
 
-    public int WMC() { return this.wmc;}
 
-
+    /**
+     * Getter dy degré selon lequel une classe est bien commentée
+     * @return metric classe_BC
+     */
     public double classe_BC() { return this.classe_BC; }
 
 
@@ -97,7 +95,6 @@ public class ClassMetrics {
      * Concaténane les métrics des classes sous forme d'un string
      * @return string des métrics
     */
-
     @Override
     public String toString(){
         return String.format(p.get("csvOutputFormat"),
@@ -110,7 +107,6 @@ public class ClassMetrics {
      * d'une classe. Inclut les commentaires et exclus les lignes vides.
      * @return nombre ligne total
      */
-
     private int computeClasse_LOC(List<String> lines){
         return lines.stream().filter(line -> !line.trim().isEmpty()).collect(Collectors.toList()).size();
     }
@@ -123,7 +119,6 @@ public class ClassMetrics {
      * @param lines liste des lignes de codes
      * @return nombre de lignes contenant des commentaires
      */
-
     private int computeClasse_CLOC(List<String> lines) {
 
         // Compteur des commentaires
@@ -168,7 +163,6 @@ public class ClassMetrics {
      * @param loc nb ligne de code total de la classe
      * @return densité commentaire de la classe
     */
-
     private double computeClasse_DC(int cloc, int loc) {
         return ((double)cloc) / ((double)loc);
     }
@@ -184,7 +178,6 @@ public class ClassMetrics {
      * @param line une ligne de code
      * @return boolean
     */
-
     private boolean commentIsNotInString(String line) {
         int first, next = -1;
         int idx = line.indexOf(p.get("basicComment"));
@@ -209,7 +202,6 @@ public class ClassMetrics {
       * @source https://www.javatpoint.com/how-to-read-file-line-by-line-in-java
       * @throws IOException
      */
-
     private List<String> readAndRemoveEmptyLinesAndSetPackageName(String file) throws IOException {
 
         List<String> lines = new ArrayList<>();
@@ -239,7 +231,6 @@ public class ClassMetrics {
      * @param lines lignes de la classe
      * @return complexité de McCabe pour la classe
      */
-
     private int computeWMC(List<String> lines) {
 
         Pattern complexityPattern =  Pattern.compile(p.get("regexp_class_complexity"));
@@ -257,6 +248,13 @@ public class ClassMetrics {
     }
 
 
+    /**
+     * Méthode calculant le ratio de la densité de commentaire
+     * et la complexité d'une classe = métric classe_BC.
+     * @param classe_DC densité commentaire classe
+     * @param wmc complexité McCabe classe
+     * @return metric classe_BC
+     */
     private double compute_classe_BC(double classe_DC, int wmc) {
         return (classe_DC) / ((double)wmc);
     }
@@ -267,7 +265,6 @@ public class ClassMetrics {
       * @param file nom fichier
       * @return nom de la classe
      */
-
     private String getClassName(String file){
         File f = new File(file);
         return f.getName().substring(0, f.getName().length() - p.get("javaFileExt").length());
@@ -278,7 +275,6 @@ public class ClassMetrics {
       * Getter pour le nom du package
       * @return nom package
      */
-
     public String getPackageName() {
         return this.packageName;
     }

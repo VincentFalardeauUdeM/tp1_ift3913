@@ -11,18 +11,18 @@ import java.io.PrintWriter;
  * @author Pascal St-Amour
  * @author Vincent Falardeau
  */
-
 public class CsvMetrics {
+
 
     private final ProjectProperties p;
     private final ProjectMetrics pm;
+
 
     /**
      * Constructeur de la classe, intialise les objets contenus
      * dans celle-ci ainsi que la création des fichiers csv.
      * @param projectProperties
      */
-
     public CsvMetrics(ProjectMetrics projetMetrics, ProjectProperties projectProperties) throws FileNotFoundException {
         this.p = projectProperties;
         this.pm = projetMetrics;
@@ -37,7 +37,6 @@ public class CsvMetrics {
      * @source https://www.baeldung.com/java-csv
      * @return void
      */
-
     public void writePackageCvs() {
 
         String fileName = p.get("packageCsvFilename");
@@ -65,7 +64,6 @@ public class CsvMetrics {
      * @source https://www.baeldung.com/java-csv
      * @return void
      */
-
     public void writeClassCvs() {
 
         String fileName = p.get("classCsvFilename");
@@ -87,6 +85,5 @@ public class CsvMetrics {
             System.out.println(e.getMessage());
         }
     }
-
 
 }

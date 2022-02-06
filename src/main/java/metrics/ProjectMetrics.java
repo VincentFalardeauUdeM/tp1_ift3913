@@ -1,5 +1,4 @@
 package metrics;
-
 import properties.ProjectProperties;
 import util.Util;
 
@@ -18,7 +17,6 @@ import java.util.stream.Collectors;
  * @author Pascal St-Amour
  * @author Vincent Falardeau
  */
-
 public class ProjectMetrics {
 
 
@@ -36,7 +34,6 @@ public class ProjectMetrics {
      * @param projectProperties propriétés du projet
      * @throws IOException
      */
-
     public ProjectMetrics(String root, ProjectProperties projectProperties) throws IOException {
         this.p = projectProperties;
         this.packageMetricsList = getPackageMetricsFromRoot(root);
@@ -50,7 +47,6 @@ public class ProjectMetrics {
      * @return liste des objets packageMetrics
      * @throws IOException
      */
-
     private List<PackageMetrics> getPackageMetricsFromRoot(String root) throws IOException {
 
         List<PackageMetrics> packageMetricsList = new ArrayList<PackageMetrics>();
@@ -83,7 +79,6 @@ public class ProjectMetrics {
      * @source https://www.baeldung.com/java-list-directory-files
      * @return sous paquet et sous-fichiers
      */
-
     private List<String> getSubFoldersFromFiles(File[] files, String root){
         return Arrays.stream(files).distinct()
                 .filter(file -> file.isDirectory())
@@ -97,7 +92,6 @@ public class ProjectMetrics {
      * Getter de tous les métrics du paquet
      * @return metrics paquet
      */
-
     public List<PackageMetrics> getPackageMetricsList() {
         return packageMetricsList;
     }

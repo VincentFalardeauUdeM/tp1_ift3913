@@ -16,7 +16,6 @@ import java.util.stream.Collectors;
 * @author Pascal St-Amour
 * @author Vincent Falardeau
 */
-
 public class PackageMetrics {
 
 
@@ -37,7 +36,6 @@ public class PackageMetrics {
      * @param projectProperties propriétés
      * @throws IOException
      */
-
     public PackageMetrics(String pkg, ProjectProperties projectProperties) throws IOException {
         this.p = projectProperties;
         this.path = pkg;
@@ -54,7 +52,6 @@ public class PackageMetrics {
      * Getter métric paquet_CLOC
      * @return total de ligne
     */
-
     public int paquet_CLOC(){
         return this.paquet_CLOC;
     }
@@ -64,7 +61,6 @@ public class PackageMetrics {
      * Getter métric paquet_LOC
      * @return total de ligne
     */
-
     public int paquet_LOC(){
         return this.paquet_LOC;
     }
@@ -74,37 +70,38 @@ public class PackageMetrics {
      * Getter métric paquet_DC
      * @return densité de commentaires pour un paquet
     */
-
     public double paquet_DC() {
     return this.paquet_DC;
     }
 
 
     /**
-     * Getter liste des métrics d'un package
-     * @return liste des métrics
+     * Getter du metric WCP pour le paquet
+     * @return metric wcp
      */
-
-    public List<ClassMetrics> getClassMetricsList(){
-    return this.classMetricsList;
-    }
-
-
-
-
     public int WCP() { return this.wcp; }
 
 
-
+    /**
+     * Getter du metric paquet_BC pour le paquet
+     * @return metric paquet_BC
+     */
     public double paquet_BC() { return this.paquet_BC; }
 
+
+    /**
+     * Getter liste des métrics d'un package
+     * @return liste des métrics
+     */
+    public List<ClassMetrics> getClassMetricsList(){
+        return this.classMetricsList;
+    }
 
 
     /**
      * Concaténane les métrics des paquets sous forme d'un string
      * @return string des métrics
      */
-
     @Override
     public String toString(){
         return String.format(p.get("csvOutputFormat"),
@@ -118,7 +115,6 @@ public class PackageMetrics {
      * @param classMetricsList métrics d'un paquet
      * @return nombre total de ligne
      */
-
     private int computePaquet_CLOC(List<ClassMetrics> classMetricsList) {
         int cloc = 0;
         for(ClassMetrics cm: classMetricsList){
@@ -134,7 +130,6 @@ public class PackageMetrics {
      * @param classMetricsList métrics d'un paquet
      * @return nombre total ligne avec commentaire
      */
-
     private int computePaquet_LOC(List<ClassMetrics> classMetricsList) {
         int loc = 0;
         for(ClassMetrics cm: classMetricsList){
@@ -147,35 +142,40 @@ public class PackageMetrics {
     /**
      * Calcul la densité de ligne comprenant des commentaires
      * sur le nombre de ligne total pour un paquet.
-     * @param cloc nb lignes avec commentaires du paquet
-     * @param loc nb lignes total du paquet
+     * @param cloc metric cloc du paquet
+     * @param loc metric loc du paquet
      * @return densité commentaire du paquet
      */
-
     private double computePaquet_DC(int cloc, int loc) {
         return ((double)cloc) / ((double)loc);
     }
 
 
-
+    /**
+     * Méthode calculant le total de complexité pour chaque classe
+     * du paquet donné.
+     * @param classMetricsList métrics d'un paquet
+     * @return somme des WMC de chaque classe
+     */
     private int computeWCP(List<ClassMetrics> classMetricsList) {
-
         int counter = 0;
-
         for (ClassMetrics cm: classMetricsList) {
             counter += cm.WMC();
         }
-
         return counter;
     }
 
 
+    /**
+     * Méthode calculant le metric paquet_BC pour le paquet
+     * donné.
+     * @param paquet_dc metric du paquet paquet_dc
+     * @param wcp metric wcp du paquet
+     * @return metric paquet_BC
+     */
     private double computePaquet_BC(double paquet_dc, int wcp) {
         return (paquet_dc) / ((double)wcp);
     }
-
-
-
 
 
     /**
@@ -185,7 +185,6 @@ public class PackageMetrics {
      * @return liste des ClassMetrics du paquet
      * @throws IOException
      */
-
     private List<ClassMetrics> getClassMetricsFromPackage(String packagePath) throws IOException {
         List<ClassMetrics> classMetricsList = new ArrayList<ClassMetrics>();
         List<String> files = getJavaFilesInPackage(packagePath);
@@ -203,7 +202,6 @@ public class PackageMetrics {
      * @source https://www.baeldung.com/java-list-directory-files
      * @return liste fichiers du package
      */
-
     private List<String> getJavaFilesInPackage(String pkg){
         File[] files = new File(pkg).listFiles();
         return Arrays.stream(files).distinct()
@@ -221,7 +219,6 @@ public class PackageMetrics {
      * @param classMetricsList liste des metrics du pkg
      * @return nom du pkg
      */
-
     private String getPackageName(String pkg, List<ClassMetrics> classMetricsList){
         return classMetricsList.size() > 0 ?
                 classMetricsList.get(0).getPackageName() :
