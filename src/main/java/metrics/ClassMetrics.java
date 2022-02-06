@@ -244,6 +244,7 @@ public class ClassMetrics {
         for (String line: lines) {
             complexityMatcher = complexityPattern.matcher(line);
             if (complexityMatcher.find()) {
+                System.out.println(line);
                 count++;
             }
         }
