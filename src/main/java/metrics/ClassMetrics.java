@@ -26,7 +26,8 @@ public class ClassMetrics {
     private final int classe_CLOC;
     private final int classe_LOC;
     private final double classe_DC;
-    private final int classe_complexity;
+    private final int wmc;
+    private final double classe_BC;
     private final ProjectProperties p;
     private String packageName;
 
@@ -44,8 +45,9 @@ public class ClassMetrics {
         List<String> lines = readAndRemoveEmptyLinesAndSetPackageName(file);
         this.classe_CLOC = computeClasse_CLOC(lines);
         this.classe_LOC = computeClasse_LOC(lines);
-        this.classe_complexity = computeComplexiteCyclomatique(lines);
+        this.wmc = computeWMC(lines);
         this.classe_DC = computeClasse_DC(this.classe_CLOC,  this.classe_LOC);
+        this.classe_BC = compute_classe_BC(classe_DC, wmc);
     }
 
 
@@ -84,7 +86,10 @@ public class ClassMetrics {
      * @return complexité de la classe
      */
 
-    public int classe_complexity() { return this.classe_complexity;}
+    public int WMC() { return this.wmc;}
+
+
+    public double classe_BC() { return this.classe_BC; }
 
 
     /**
@@ -95,7 +100,7 @@ public class ClassMetrics {
     @Override
     public String toString(){
         return String.format(p.get("csvOutputFormat"),
-            this.path, this.className, this.classe_LOC, this.classe_CLOC, this.classe_DC);
+            this.path, this.className, this.classe_LOC, this.classe_CLOC, this.classe_DC, this.wmc, this.classe_BC);
     }
 
 
@@ -164,8 +169,7 @@ public class ClassMetrics {
     */
 
     private double computeClasse_DC(int cloc, int loc) {
-        float dc = ((float)cloc) / ((float)loc);
-        return Math.round(dc * 100.0) / 100.0;
+        return ((double)cloc) / ((double)loc);
     }
 
 
@@ -235,7 +239,7 @@ public class ClassMetrics {
      * @return complexité de McCabe pour la classe
      */
 
-    private int computeComplexiteCyclomatique(List<String> lines) {
+    private int computeWMC(List<String> lines) {
 
         Pattern complexityPattern =  Pattern.compile(p.get("regexp_class_complexity"));
         Matcher complexityMatcher;
@@ -244,12 +248,16 @@ public class ClassMetrics {
         for (String line: lines) {
             complexityMatcher = complexityPattern.matcher(line);
             if (complexityMatcher.find()) {
-                System.out.println(line);
                 count++;
             }
         }
 
-        return count;
+        return count + 1;
+    }
+
+
+    private double compute_classe_BC(double classe_DC, int wmc) {
+        return (classe_DC) / ((double)wmc);
     }
 
 

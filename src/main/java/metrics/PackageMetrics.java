@@ -25,6 +25,8 @@ public class PackageMetrics {
     private final int paquet_CLOC;
     private final int paquet_LOC;
     private final double paquet_DC;
+    private final int wcp;
+    private final double paquet_BC;
     private final ProjectProperties p;
     private List<ClassMetrics> classMetricsList;
 
@@ -43,9 +45,10 @@ public class PackageMetrics {
         this.pkgName = getPackageName(pkg, classMetricsList);
         this.paquet_CLOC = computePaquet_CLOC(classMetricsList);
         this.paquet_LOC = computePaquet_LOC(classMetricsList);
+        this.wcp = computeWCP(classMetricsList);
         this.paquet_DC = computePaquet_DC( this.paquet_CLOC, this.paquet_LOC);
+        this.paquet_BC = computePaquet_BC(this.paquet_DC, this.wcp);
     }
-
 
     /**
      * Getter métric paquet_CLOC
@@ -87,6 +90,16 @@ public class PackageMetrics {
     }
 
 
+
+
+    public int WCP() { return this.wcp; }
+
+
+
+    public double paquet_BC() { return this.paquet_BC; }
+
+
+
     /**
      * Concaténane les métrics des paquets sous forme d'un string
      * @return string des métrics
@@ -95,7 +108,7 @@ public class PackageMetrics {
     @Override
     public String toString(){
         return String.format(p.get("csvOutputFormat"),
-                this.path, this.pkgName, this.paquet_LOC, this.paquet_CLOC, this.paquet_DC);
+                this.path, this.pkgName, this.paquet_LOC, this.paquet_CLOC, this.paquet_DC, this.wcp, this.paquet_BC);
     }
 
 
@@ -140,9 +153,29 @@ public class PackageMetrics {
      */
 
     private double computePaquet_DC(int cloc, int loc) {
-        float dc = ((float)cloc) / ((float)loc);
-        return Math.round(dc * 100.0) / 100.0;
+        return ((double)cloc) / ((double)loc);
     }
+
+
+
+    private int computeWCP(List<ClassMetrics> classMetricsList) {
+
+        int counter = 0;
+
+        for (ClassMetrics cm: classMetricsList) {
+            counter += cm.WMC();
+        }
+
+        return counter;
+    }
+
+
+    private double computePaquet_BC(double paquet_dc, int wcp) {
+        return (paquet_dc) / ((double)wcp);
+    }
+
+
+
 
 
     /**
