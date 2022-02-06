@@ -1,5 +1,5 @@
-package main.java.metrics;
-import main.java.properties.ProjectProperties;
+package metrics;
+import properties.ProjectProperties;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 /**
   * Classe responsable de calculer les métriques associées
@@ -110,8 +111,8 @@ public class ClassMetrics {
      * @return nombre ligne total
      */
 
-    private int computeClasse_CLOC(List<String> lines){
-        return lines.size();
+    private int computeClasse_LOC(List<String> lines){
+        return lines.stream().filter(line -> !line.trim().isEmpty()).collect(Collectors.toList()).size();
     }
 
 
@@ -123,7 +124,7 @@ public class ClassMetrics {
      * @return nombre de lignes contenant des commentaires
      */
 
-    private int computeClasse_LOC(List<String> lines) {
+    private int computeClasse_CLOC(List<String> lines) {
 
         // Compteur des commentaires
         int nbDeLignesDeCommentaire = 0;

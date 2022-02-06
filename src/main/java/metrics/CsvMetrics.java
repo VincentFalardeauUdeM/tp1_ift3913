@@ -1,5 +1,5 @@
-package main.java.metrics;
-import main.java.properties.ProjectProperties;
+package metrics;
+import properties.ProjectProperties;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;

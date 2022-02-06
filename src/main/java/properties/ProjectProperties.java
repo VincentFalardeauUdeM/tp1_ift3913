@@ -1,4 +1,4 @@
-package main.java.properties;
+package properties;
 
 import java.io.*;
 import java.util.Properties;
@@ -26,9 +26,10 @@ public class ProjectProperties {
     }
 
     //Src: https://mkyong.com/java/java-properties-file-examples/
+    //Source: https://stackoverflow.com/questions/6068197/utils-to-read-resource-text-file-to-string-java
     private Properties loadProperties(String configFile) throws IOException {
-
-        InputStream input = new BufferedInputStream(new FileInputStream(configFile));
+        ClassLoader classLoader = ClassLoader.getSystemClassLoader();
+        InputStream input = classLoader.getResourceAsStream(configFile);
         Properties prop = new Properties();
         prop.load(input);
         return prop;

@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="Metrics:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/Metrics_jar</output-path>
+    <root id="archive" name="Metrics.jar">
+      <element id="module-output" name="Metrics" />
+    </root>
+  </artifact>
+</component>

@@ -1,6 +1,6 @@
-package main.java.metrics;
-import main.java.properties.ProjectProperties;
-import main.java.util.Util;
+package metrics;
+import properties.ProjectProperties;
+import util.Util;
 
 import java.io.File;
 import java.io.IOException;
